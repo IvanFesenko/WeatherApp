@@ -1,1 +1,3 @@
-import './weathermap/weather';
+import WeatherApp from './weathermap/weather';
+
+const App = new WeatherApp('Kiev');
