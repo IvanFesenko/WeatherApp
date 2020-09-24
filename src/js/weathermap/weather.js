@@ -1,5 +1,9 @@
 import Axios from 'axios';
 
+function transformData(data) {
+  const { weather, wind, city, main, list } = data;
+}
+
 export default class WeatherApp {
   constructor(query, selector) {
     this.key = '&appid=9c39d47f326699936c99f91558809414';
@@ -13,25 +17,24 @@ export default class WeatherApp {
       metric: 'metric',
       imperial: 'imperial',
     };
-    this.getData = this.getData.bind(this);
-    this.getData(this);
+    // this.getData = this.getData.bind(this);
+    this.getData();
+    this.ref = document.querySelector(selector);
+    console.log(this);
   }
-  async getData(App) {
-    const data = await Promise.all([getTodayWeather(), getWeeklyWeather()]);
-    console.log(data);
-    // console.log(dayly);
-    // console.log(weekly);
-    console.log(App);
-
-    //   .then(function (
-    //   results,
-    // ) {
-    //   const { data: dayly } = results[0];
-    //   const { data: weekly } = results[1];
-    //   console.log(dayly);
-    //   console.log(weekly);
-    //   console.log(App);
-    // });
+  async getData() {
+    try {
+      const [data1, data2] = await Promise.all([
+        this.getTodayWeather(),
+        this.getWeeklyWeather(),
+      ]);
+      const { data: dayly } = data1;
+      const { data: weekly } = data2;
+      const allData = { ...dayly, ...weekly };
+      this.allData = allData;
+    } catch (e) {
+      console.error(e);
+    }
   }
 
   getTodayWeather() {
@@ -61,100 +64,7 @@ export default class WeatherApp {
       'https://raw.githubusercontent.com/IvanFesenko/WeatherApp/master/src/js/weathermap/weekly.json';
     return Axios.get(url);
   }
-}
-
-const weatherApp = {
-  key: '&appid=9c39d47f326699936c99f91558809414',
-  baseURL: 'http://api.openweathermap.org/data/2.5/',
-  type: {
-    day: 'weather',
-    days: 'forecast',
-  },
-  searchQuery: '',
-  units: {
-    metric: 'metric',
-    imperial: 'imperial',
-  },
-};
-
-// Promise.all([getTodayWeather(), getWeeklyWeather()]).then(function (results) {
-//   const { data: dayly } = results[0];
-//   const { data: weekly } = results[1];
-//   console.log(dayly);
-//   console.log(weekly);
-// });
-
-// getTodayWeatherAsync();
-
-async function getTodayWeatherAsync() {
-  // const {
-  //   baseURL,
-  //   key,
-  //   type: { day },
-  //   searchQuery,
-  //   units: { metric },
-  // } = this;
-  // const url = `${baseURL}${day}${searchQuery}${key}&units=${metric}`;
-  // const url =
-  //   'https://raw.githubusercontent.com/IvanFesenko/WeatherApp/master/src/js/weathermap/dayly.json';
-
-  const url =
-    'http://api.openweathermap.org/data/2.5/weather?q=Kiev&appid=9c39d47f326699936c99f91558809414&units=metric';
-  try {
-    const response = await fetch(url);
-    console.log(response);
-    const data = await response.json();
-    console.log(data);
-  } catch (error) {
-    console.error(error);
+  #getWeatherImageURL(icon) {
+    return `http://openweathermap.org/img/wn/${icon}@2x.png`;
   }
 }
-
-function getTodayWeather() {
-  // const {
-  //   baseURL,
-  //   key,
-  //   type: { day },
-  //   searchQuery,
-  //   units: { metric },
-  // } = this;
-  // const url = `${baseURL}${day}${searchQuery}${key}&units=${metric}`;
-  const url =
-    'https://raw.githubusercontent.com/IvanFesenko/WeatherApp/master/src/js/weathermap/dayly.json';
-  return Axios.get(url);
-}
-
-function getWeeklyWeather() {
-  // const {
-  //   baseURL,
-  //   key,
-  //   type: { days },
-  //   searchQuery,
-  //   units: { metric },
-  // } = this;
-  // const url = `${baseURL}${days}${searchQuery}${key}&units=${metric}`;
-  const url =
-    'https://raw.githubusercontent.com/IvanFesenko/WeatherApp/master/src/js/weathermap/weekly.json';
-  return Axios.get(url);
-}
-
-// constructor(searchQuery) {
-//
-//     const daylyData = this.getTodayWeather();
-//     const weeklyData = this.getWeeklyWeather();
-//     console.log(this);
-//     console.log(this);
-//   }
-//   render() {}
-//   setup() {
-//     Promise.all([this.getTodayWeather(), this.getWeeklyWeather()]).then(
-//       function (results) {
-//         return results;
-//       },
-//     );
-//   }
-//   getWeatherImageURL(icon) {
-//     return `http://openweathermap.org/img/wn/${icon}@2x.png`;
-//   }
-
-// }
