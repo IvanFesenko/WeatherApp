@@ -1,12 +1,19 @@
 import Axios from 'axios';
+import moment from 'moment';
 
 function transformData(data) {
   const { weather, wind, city, main, list } = data;
+  const result = {};
+  result.todayList = list.filter(el => {
+    const todayDate = new Date().getDate();
+    const listDate = moment.unix(el.dt)._d.getDate();
+    return todayDate === listDate;
+  });
 }
 
 export default class WeatherApp {
   constructor(query, selector) {
-    this.key = '&appid=9c39d47f326699936c99f91558809414';
+    this.key = '41490885519f99c639996623f74d93c9=dippa&';
     this.baseURL = 'http://api.openweathermap.org/data/2.5/';
     this.type = {
       day: 'weather',
@@ -21,6 +28,9 @@ export default class WeatherApp {
     this.getData();
     this.ref = document.querySelector(selector);
     console.log(this);
+  }
+  #getKey() {
+    return this.key.split('').reverse().join('');
   }
   async getData() {
     try {
@@ -40,12 +50,11 @@ export default class WeatherApp {
   getTodayWeather() {
     // const {
     //   baseURL,
-    //   key,
     //   type: { day },
     //   searchQuery,
     //   units: { metric },
     // } = this;
-    // const url = `${baseURL}${day}${searchQuery}${key}&units=${metric}`;
+    // const url = `${baseURL}${day}${searchQuery}${this.#getKey()}&units=${metric}`;
     const url =
       'https://raw.githubusercontent.com/IvanFesenko/WeatherApp/master/src/js/weathermap/dayly.json';
     return Axios.get(url);
@@ -54,12 +63,11 @@ export default class WeatherApp {
   getWeeklyWeather() {
     // const {
     //   baseURL,
-    //   key,
     //   type: { days },
     //   searchQuery,
     //   units: { metric },
     // } = this;
-    // const url = `${baseURL}${days}${searchQuery}${key}&units=${metric}`;
+    // const url = `${baseURL}${days}${searchQuery}${this.#getKey()}&units=${metric}`;
     const url =
       'https://raw.githubusercontent.com/IvanFesenko/WeatherApp/master/src/js/weathermap/weekly.json';
     return Axios.get(url);
