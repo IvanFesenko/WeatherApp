@@ -4,9 +4,10 @@ import moment from 'moment';
 function transformData(data) {
   const { weather, wind, city, main, list } = data;
   const result = {};
-  const todayList = list.filter(el => {
-    const todayDay = new Date().getDate();
-    const m = moment.unix(1600970400)._d.getDate();
+  result.todayList = list.filter(el => {
+    const todayDate = new Date().getDate();
+    const listDate = moment.unix(el.dt)._d.getDate();
+    return todayDate === listDate;
   });
 }
 
