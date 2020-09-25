@@ -2,6 +2,12 @@ import Axios from 'axios';
 
 function transformData(data) {
   const { weather, wind, city, main, list } = data;
+  const result = {};
+  const todayList = list.filter(el => {
+    // const today =
+    // 1600905600;
+    // 1600992000;
+  });
 }
 
 export default class WeatherApp {
