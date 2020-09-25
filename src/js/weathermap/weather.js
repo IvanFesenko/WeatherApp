@@ -64,6 +64,7 @@ export default class WeatherApp {
       'https://raw.githubusercontent.com/IvanFesenko/WeatherApp/master/src/js/weathermap/weekly.json';
     return Axios.get(url);
   }
+
   #getWeatherImageURL(icon) {
     return `http://openweathermap.org/img/wn/${icon}@2x.png`;
   }
