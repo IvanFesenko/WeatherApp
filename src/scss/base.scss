@@ -1,0 +1,70 @@
+
+.body{
+  background-image: -webkit-gradient(linear,left top,left bottom,color-stop(9%,#4682B4),to(#ADD8E6));
+}
+
+.container {
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 15px;
+}
+
+.form-wrap{
+  padding-top: 15px;
+}
+
+.search-form{
+  margin: 0 0 10px 0;
+  &__input{
+    width: 100%;
+    border-radius: 10px;
+    padding: 0 0 0 10px;
+    outline-style: none;
+    line-height: 1.5;
+    border: 1px solid #DCDCDC;
+  }
+}
+
+.weather-app{
+  background-color: rgba(0,0,0, 0.4);
+  border-radius: 10px;
+  padding: 10px;
+  margin: 0 0 25px 0;
+  color: #fff;
+  height: 100%;
+  &__city{
+    margin: 0 0 25px 0;
+    font-size: 25px;
+  }
+
+  &__current {
+    &--description {
+      text-align: center;
+      font-size: 45px;
+    }
+    &--temperature{
+      text-align: center;
+      font-size: 75px;
+      margin: 0 0 40px 0;
+
+    }
+    &--date{
+      font-size: 14px;
+      margin: 0 0 5px 0;
+    }
+
+    &--today{
+      display: flex;
+      justify-content: space-between;
+      font-size: 24px;
+      &-temp {
+        width: 54px;
+        display: flex;
+        justify-content: space-between;
+      }
+
+    }
+
+  }
+
+}

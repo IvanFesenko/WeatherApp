@@ -1,0 +1,20 @@
+<p class="weather-app__city">{{city}}</p>
+<p class="weather-app__current--description">{{weather.main}}</p>
+<p class="weather-app__current--temperature">{{weather.temp}}</p>
+<p class="weather-app__current--date">{{currentTime}}</p>
+<div class="weather-app__current--today">
+  <p class="weather-app__current--today-text">Today</p>
+  <div class="weather-app__current--today-temp">
+    <span class="weather-app__current--today-temp-min">{{weather.temp_min}}</span>
+    <span class="weather-app__current--today-temp-max">{{weather.temp_max}}</span>
+  </div>
+</div>
+<ul class="weather-app__current--hourly">
+  {{#each todayList}}
+  <li class="weather-app__current--hourly-item">
+    <p class="weather-app__current--hourly-item--time">{{this.time}}</p>
+    <img src="{{this.image}}" alt="" class="weather-app__current--hourly-item--img">
+    <p class="weather-app__current--hourly-item--temp">{{this.temp}}</p>
+  </li>
+  {{/each}}
+</ul>

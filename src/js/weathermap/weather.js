@@ -1,14 +1,60 @@
 import Axios from 'axios';
 import moment from 'moment';
+import template from '../../templates/WeatherApp.hbs';
 
 function transformData(data) {
-  const { weather, wind, city, main, list } = data;
+  const { weather, wind, main, list, sys, name } = data;
   const result = {};
-  result.todayList = list.filter(el => {
+  result.weather = {...weather[0], ...wind, ...main, ...sys};
+  result.city = `${name}, ${result.weather.country}`;
+  result.weather.temp = Math.round(result.weather.temp);
+  result.currentTime = moment(new Date(), "MM-DD-YYYY").format("MM DD YYYY HH:mm");
+  result.weather.temp_min = Math.round(result.weather.temp_min);
+  result.weather.temp_max = Math.round(result.weather.temp_max);
+  result.weather.image = getWeatherImageURL(result.weather.icon);
+  const todayList = list.filter(el => {
     const todayDate = new Date().getDate();
-    const listDate = moment.unix(el.dt)._d.getDate();
+    const listDate = moment.unix(el.dt-10000)._d.getDate();
     return todayDate === listDate;
   });
+  // result.today = todayList;
+
+  result.todayList = todayList.reduce((acc, value) => {
+    const {weather, wind, main, sys, dt} = value;
+    const result = {...weather[0], ...wind, ...main, ...sys, dt};
+    result.temp = Math.round(result.temp);
+    result.time = moment.unix(result.dt).format("HH:mm");
+    result.image = getWeatherImageURL(result.icon);
+    acc.push(result);
+    return acc;
+  }, [])
+
+  const fiveDaysList = list.filter(el => {
+    const todayDate = new Date().getDate();
+    const listDate = moment.unix(el.dt-10000)._d.getDate();
+    if (todayDate === listDate) return false;
+    const listHours = moment.unix(el.dt-10000)._d.getHours();
+    if (listHours === 12) return true;
+  })
+
+  // result.fiveDays = fiveDaysList;
+
+  result.fiveDaysList = fiveDaysList.reduce((acc, value) => {
+    const {weather, wind, main, dt} = value;
+    const result = {...weather[0], ...wind, ...main, dt};
+    result.temp = Math.round(result.temp);
+    result.image = getWeatherImageURL(result.icon);
+    acc.push(result);
+    return acc;
+  },[])
+
+
+
+  return result;
+}
+
+function getWeatherImageURL(icon) {
+  return `http://openweathermap.org/img/wn/${icon}@2x.png`;
 }
 
 export default class WeatherApp {
@@ -28,6 +74,7 @@ export default class WeatherApp {
     this.getData();
     this.ref = document.querySelector(selector);
     console.log(this);
+
   }
   #getKey() {
     return this.key.split('').reverse().join('');
@@ -42,38 +89,44 @@ export default class WeatherApp {
       const { data: weekly } = data2;
       const allData = { ...dayly, ...weekly };
       this.allData = allData;
+      this.data = transformData(allData)
+      this.#render();
     } catch (e) {
       console.error(e);
     }
   }
 
+  #render(){
+    const layout = template(this.data);
+    this.ref.insertAdjacentHTML('beforeend', layout);
+  }
+
   getTodayWeather() {
-    // const {
-    //   baseURL,
-    //   type: { day },
-    //   searchQuery,
-    //   units: { metric },
-    // } = this;
-    // const url = `${baseURL}${day}${searchQuery}${this.#getKey()}&units=${metric}`;
-    const url =
-      'https://raw.githubusercontent.com/IvanFesenko/WeatherApp/master/src/js/weathermap/dayly.json';
+    const {
+      baseURL,
+      type: { day },
+      city,
+      units: { metric },
+    } = this;
+    const url = `${baseURL}${day}?q=${city}${this.#getKey()}&units=${metric}`;
+    // const url =
+    //   'https://raw.githubusercontent.com/IvanFesenko/WeatherApp/master/src/js/weathermap/dayly.json';
     return Axios.get(url);
   }
 
   getWeeklyWeather() {
-    // const {
-    //   baseURL,
-    //   type: { days },
-    //   searchQuery,
-    //   units: { metric },
-    // } = this;
-    // const url = `${baseURL}${days}${searchQuery}${this.#getKey()}&units=${metric}`;
-    const url =
-      'https://raw.githubusercontent.com/IvanFesenko/WeatherApp/master/src/js/weathermap/weekly.json';
+    const {
+      baseURL,
+      type: { days },
+      city,
+      units: { metric },
+    } = this;
+    const url = `${baseURL}${days}?q=${city}${this.#getKey()}&units=${metric}`;
+
+    // const url =
+    //   'https://raw.githubusercontent.com/IvanFesenko/WeatherApp/master/src/js/weathermap/weekly.json';
     return Axios.get(url);
   }
 
-  #getWeatherImageURL(icon) {
-    return `http://openweathermap.org/img/wn/${icon}@2x.png`;
-  }
+
 }
