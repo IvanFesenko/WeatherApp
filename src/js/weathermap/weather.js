@@ -62,19 +62,23 @@ function getWeatherImageURL(icon) {
 }
 
 export default class WeatherApp {
-  constructor(query, selector) {
+  constructor(selector, params) {
     this.key = '41490885519f99c639996623f74d93c9=dippa&';
     this.baseURL = 'http://api.openweathermap.org/data/2.5/';
     this.type = {
       day: 'weather',
       days: 'forecast',
     };
-    this.city = query;
     this.units = {
       metric: 'metric',
       imperial: 'imperial',
     };
-    // this.getData = this.getData.bind(this);
+    if (params.hasOwnProperty('cords')) {
+      const {lat, lon} = params.cords;
+      this.searchQuery = `?lat=${lat}&lon=${lon}`;
+    } else {
+      this.searchQuery = `?q=${params.query}`;
+    }
     this.getData();
     this.ref = document.querySelector(selector);
     console.log(this);
@@ -110,21 +114,26 @@ export default class WeatherApp {
     const {
       baseURL,
       type: { day },
-      city,
+      searchQuery,
       units: { metric },
     } = this;
-    const url = `${baseURL}${day}?q=${city}${this.#getKey()}&units=${metric}`;
+    const url = `${baseURL}${day}${searchQuery}${this.#getKey()}&units=${metric}`;
     return Axios.get(url);
   }
+
 
   getWeeklyWeather() {
     const {
       baseURL,
       type: { days },
-      city,
+      searchQuery,
       units: { metric },
     } = this;
-    const url = `${baseURL}${days}?q=${city}${this.#getKey()}&units=${metric}`;
+    const url = `${baseURL}${days}${searchQuery}${this.#getKey()}&units=${metric}`;
     return Axios.get(url);
+  }
+
+  destroy(){
+    this.ref.innerHTML = '';
   }
 }
