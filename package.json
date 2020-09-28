@@ -54,6 +54,7 @@
     "core-js": "^3.6.5",
     "handlebars": "^4.7.6",
     "moment": "^2.29.0",
-    "normalize.css": "^8.0.1"
+    "normalize.css": "^8.0.1",
+    "swiper": "^6.3.2"
   }
 }

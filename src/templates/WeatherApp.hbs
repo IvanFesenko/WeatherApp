@@ -18,3 +18,12 @@
   </li>
   {{/each}}
 </ul>
+<ul class="weather-app__current--weekly">
+  {{#each fiveDaysList}}
+  <li class="weather-app__current--weekly-item">
+    <p class="weather-app__current--weekly-item--time">{{this.time}}</p>
+    <img src="{{this.image}}" alt="" class="weather-app__current--weekly-item--img">
+    <p class="weather-app__current--weekly-item--temp">{{this.temp}}</p>
+  </li>
+  {{/each}}
+</ul>
