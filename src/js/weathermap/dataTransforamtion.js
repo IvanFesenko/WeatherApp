@@ -36,15 +36,8 @@ export default function transformData(data) {
   });
   // result.today = todayList;
   result.todayList = formatList(todayList, 'HH:mm');
-  // result.todayList = todayList.reduce((acc, value) => {
-  //   const { weather, wind, main, dt } = value;
-  //   const result = { ...weather[0], ...wind, ...main, dt };
-  //   result.temp = Math.round(result.temp);
-  //   result.time = moment.unix(result.dt - 10800).format('HH:mm');
-  //   result.image = getWeatherImageURL(result.icon);
-  //   acc.push(result);
-  //   return acc;
-  // }, []);
+
+  ;
 
   const fiveDaysList = list.filter(el => {
     const todayDate = new Date().getDate();
@@ -56,16 +49,6 @@ export default function transformData(data) {
 
   // result.fiveDays = fiveDaysList;
   result.fiveDaysList = formatList(fiveDaysList, 'DD.MM');
-
-  // result.fiveDaysList = fiveDaysList.reduce((acc, value) => {
-  //   const { weather, wind, main, dt } = value;
-  //   const result = { ...weather[0], ...wind, ...main, dt };
-  //   result.temp = Math.round(result.temp);
-  //   result.time = moment.unix(result.dt - 10800).format('DD.MM');
-  //   result.image = getWeatherImageURL(result.icon);
-  //   acc.push(result);
-  //   return acc;
-  // }, []);
 
   return result;
 }
