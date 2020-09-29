@@ -9,21 +9,25 @@
     <span class="weather-app__current--today-temp-max">{{weather.temp_max}}</span>
   </div>
 </div>
-<ul class="weather-app__current--hourly">
-  {{#each todayList}}
-  <li class="weather-app__current--hourly-item">
-    <p class="weather-app__current--hourly-item--time">{{this.time}}</p>
-    <img src="{{this.image}}" alt="" class="weather-app__current--hourly-item--img">
-    <p class="weather-app__current--hourly-item--temp">{{this.temp}}</p>
-  </li>
-  {{/each}}
-</ul>
-<ul class="weather-app__current--weekly">
-  {{#each fiveDaysList}}
-  <li class="weather-app__current--weekly-item">
-    <p class="weather-app__current--weekly-item--time">{{this.time}}</p>
-    <img src="{{this.image}}" alt="" class="weather-app__current--weekly-item--img">
-    <p class="weather-app__current--weekly-item--temp">{{this.temp}}</p>
-  </li>
-  {{/each}}
-</ul>
+<div class="swiper-container swiper__hourly">
+  <ul class="weather-app__current--hourly swiper-wrapper">
+    {{#each todayList}}
+    <li class="weather-app__current--hourly-item swiper-slide">
+      <p class="weather-app__current--hourly-item--time">{{this.time}}</p>
+      <img src="{{this.image}}" alt="" class="weather-app__current--hourly-item--img">
+      <p class="weather-app__current--hourly-item--temp">{{this.temp}}</p>
+    </li>
+    {{/each}}
+  </ul>
+</div>
+<div class="swiper-container swiper__weekly">
+  <ul class="weather-app__current--weekly swiper-wrapper">
+    {{#each fiveDaysList}}
+    <li class="weather-app__current--weekly-item swiper-slide">
+      <p class="weather-app__current--weekly-item--time">{{this.time}}</p>
+      <img src="{{this.image}}" alt="" class="weather-app__current--weekly-item--img">
+      <p class="weather-app__current--weekly-item--temp">{{this.temp}}</p>
+    </li>
+    {{/each}}
+  </ul>
+</div>
