@@ -37,9 +37,8 @@ export default class WeatherApp {
       ]);
       const { data: dayly } = data1;
       const { data: weekly } = data2;
-      const allData = { ...dayly, ...weekly };
-      this.allData = allData;
-      this.data = transformData(allData);
+      this.allData = { ...dayly, ...weekly };
+      this.data = transformData(this.allData);
       this.#render();
     } catch (e) {
       console.error(e);

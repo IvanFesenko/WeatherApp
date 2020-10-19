@@ -37,7 +37,6 @@ export default function transformData(data) {
   // result.today = todayList;
   result.todayList = formatList(todayList, 'HH:mm');
 
-  ;
 
   const fiveDaysList = list.filter(el => {
     const todayDate = new Date().getDate();
