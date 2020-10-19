@@ -15,12 +15,12 @@ function onSearchSubmit(event) {
   refs.App = new WeatherApp('.weather-app', { query: query.value });
 }
 
-// initByGeolocation()
-//   .then(resolve => {
-//     const { latitude: lat, longitude: lon } = resolve.coords;
-//     refs.App = new WeatherApp('.weather-app', { cords: { lat, lon } });
-//   })
-//   .catch(error => {
-//     console.log(error);
-//     refs.App = new WeatherApp('.weather-app', { query: 'Kiev' });
-//   });
+initByGeolocation()
+  .then(resolve => {
+    const { latitude: lat, longitude: lon } = resolve.coords;
+    refs.App = new WeatherApp('.weather-app', { cords: { lat, lon } });
+  })
+  .catch(error => {
+    console.log(error);
+    refs.App = new WeatherApp('.weather-app', { query: 'Kiev' });
+  });
