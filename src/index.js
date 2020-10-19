@@ -4,6 +4,7 @@ import './fonts/alegreya-v15-latin-regular.woff';
 import './fonts/alegreya-v15-latin-regular.woff2';
 
 import './scss/preloaderWater.scss';
+import './scss/preloaderNeon.scss';
 import 'swiper/swiper-bundle.css';
 import './css/styles.css';
 import './scss/base.scss';
